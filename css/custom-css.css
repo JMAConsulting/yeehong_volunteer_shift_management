@@ -1,0 +1,8 @@
+.freezeDate {
+    pointer-events: none;
+    background: #fdffe3;
+}
+
+input:read-only {
+    background: #fdffe3;
+}
