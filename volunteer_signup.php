@@ -48,7 +48,6 @@ function add_to_cs_head() {
   $call = wpcmrf_api('Yhvsignup', 'getselectvals', $params, $options, CMRF_ID);
   $selects = $call->getReply();
 
-
   $call = wpcmrf_api('Yhvsignup', 'geturls', $params, $options, CMRF_ID);
   $urls = $call->getReply();
 
@@ -67,26 +66,31 @@ function add_to_cs_head() {
 }
 add_action( 'wp_enqueue_scripts', 'add_to_cs_head', 50);
 
-
-
-add_filter( 'page_template', 'add_test_template' );
-function add_test_template( $page_template ) {
+add_filter( 'page_template', 'add_jsgrid_template' );
+function add_jsgrid_template( $page_template ) {
   if ( is_page( 'volunteer-signup' ) ) {
-    $page_template = __DIR__.'/testpath.php';
+    $page_template = __DIR__.'/grid.php';
   }
   return $page_template;
 }
 
-function set_volunteer_title(){
-  global $post;
-  if ($post->post_title != 'Volunteer Signup') {
-    return;
-  }
-  civicrm_initialize();
-  $cid = CRM_Utils_Request::retrieve('cid', 'Integer');
+function set_volunteer_title($title, $id = null){
+  if (!is_admin() && !is_null( $id )) {
+    $post = get_post( $id );
+    if ($post instanceof WP_Post && ($post->post_type == 'post' || $post->post_type == 'page')) {
+      civicrm_initialize();
+      $options = [];
+      $params = [
+        'sequential' => 1,
+        'contact_id' => $_GET['cid'],
+        'return' => 'display_name',
+      ];
 
-  $volunteer = CRM_Contact_BAO_Contact::displayName($cid);
-  return $volunteer;
+      $call = wpcmrf_api('Contact', 'getvalue', $params, $options, CMRF_ID);
+      return $call->getReply()['result'];
+    }
+  }
+  return $title;
 }
-add_filter('the_title','set_volunteer_title');
+add_filter('the_title','set_volunteer_title', 10, 2);
 
