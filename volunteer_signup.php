@@ -68,8 +68,14 @@ add_action( 'wp_enqueue_scripts', 'add_to_cs_head', 50);
 
 add_filter( 'page_template', 'add_jsgrid_template' );
 function add_jsgrid_template( $page_template ) {
-  if ( is_page( 'volunteer-signup' ) ) {
+  if (is_page( 'volunteer-signup' )) {
     $page_template = __DIR__.'/grid.php';
+  }
+  if (is_page('volunteer-action')) {
+    $page_template = __DIR__.'/action.php';
+  }
+  if (is_page('volunteer-filter')) {
+    $page_template = __DIR__.'/filter.php';
   }
   return $page_template;
 }

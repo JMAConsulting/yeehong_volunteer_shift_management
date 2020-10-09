@@ -80,7 +80,7 @@ jQuery(document).ready(function($) {
 
         pagerContainer: null,
         pageIndex: 1,
-        pageSize: 50,
+        pageSize: 20,
         pageButtonCount: 15,
         pagerFormat: "Pages: {first} {prev} {pages} {next} {last}    {pageIndex} of {pageCount}",
         pagePrevText: "Prev",
@@ -121,14 +121,15 @@ jQuery(document).ready(function($) {
 
                         var loc = {};
                         loc['_value'] = selectedLoc;
-                        loc['_isJsGrid'] = 1;
+                        loc['_return'] = 'division';
                         $.ajax({
-                            url: php_vars.getDept,
+                            url: php_vars.filterUrl,
                             type: "POST",
                             data: loc
                         }).done(function(output){
                             var filtereddivs = $.parseJSON(output);
                             divField.items = filtereddivs;
+                            console.log(output);
                             $(".div-insert").empty().append(divField.insertTemplate());
                         });
                     });
@@ -146,9 +147,9 @@ jQuery(document).ready(function($) {
 
                         var loc = {};
                         loc['_value'] = selectedLoc;
-                        loc['_isJsGrid'] = 1;
+                        loc['_return'] = 'division';
                         $.ajax({
-                            url: php_vars.getDept,
+                            url: php_vars.filterUrl,
                             type: "POST",
                             data: loc
                         }).done(function(output){
@@ -178,9 +179,9 @@ jQuery(document).ready(function($) {
                         var divloc = {};
                         divloc['_value'] = selectedDiv;
                         divloc['_loc'] = selectedLoc;
-                        divloc['_isJsGrid'] = 1;
+                        divloc['_return'] = 'program';
                         $.ajax({
-                            url: php_vars.getPro,
+                            url: php_vars.filterUrl,
                             type: "POST",
                             data: divloc
                         }).done(function(output){
@@ -206,9 +207,9 @@ jQuery(document).ready(function($) {
                         var divloc = {};
                         divloc['_value'] = selectedDiv;
                         divloc['_loc'] = selectedLoc;
-                        divloc['_isJsGrid'] = 1;
+                        divloc['_return'] = 'program';
                         $.ajax({
-                            url: php_vars.getPro,
+                            url: php_vars.filterUrl,
                             type: "POST",
                             data: loc
                         }).done(function(output){
@@ -348,9 +349,10 @@ jQuery(document).ready(function($) {
             insertItem: function(item) {
                 var d = $.Deferred();
                 item.contact_id = php_vars.cid;
+                item.actionmethod = 'insert';
                 // updating data request
                 $.ajax({
-                    url: php_vars.insertSignup,
+                    url: php_vars.actionUrl,
                     type: "POST",
                     data: item
                 }).done(function(output){
@@ -364,26 +366,25 @@ jQuery(document).ready(function($) {
             },
 
             updateItem: function(item) {
-                var d = $.Deferred();
                 item.contact_id = php_vars.cid;
+                item.actionmethod = 'update';
                 // updating data request
                 $.ajax({
-                    url: php_vars.signup,
+                    url: php_vars.actionUrl,
                     type: "POST",
                     data: item
                 }).done(function(output){
-                    //d.resolve(item);
                 });
-                //return d.promise();
             },
 
             loadData: function(filter) {
                 var d = $.Deferred();
                 filter.cid = php_vars.cid;
+                filter.actionmethod = 'search';
                 // server-side filtering
                 $.ajax({
                     type: "POST",
-                    url: php_vars.searchSignup,
+                    url: php_vars.actionUrl,
                     data: filter,
                     dataType: "json"
                 }).done(function(result) {
