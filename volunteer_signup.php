@@ -84,7 +84,6 @@ function set_volunteer_title($title, $id = null){
   if (!is_admin() && !is_null( $id )) {
     $post = get_post( $id );
     if ($post instanceof WP_Post && ($post->post_type == 'post' || $post->post_type == 'page')) {
-      civicrm_initialize();
       $options = [];
       $params = [
         'sequential' => 1,
