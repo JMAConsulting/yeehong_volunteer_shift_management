@@ -95,6 +95,9 @@ jQuery(document).ready(function($) {
             return this._insertPicker = $("<input>").timepicker();
         },
         editTemplate: function(value) {
+            if (this.readOnly) {
+                return this._editPicker = $("<input>").timepicker().timepicker("setTime", value).addClass('freezeDate');
+            }
             return this._editPicker = $("<input>").timepicker().timepicker("setTime", value);
         },
         insertValue: function() {
@@ -299,7 +302,11 @@ jQuery(document).ready(function($) {
             { name: "Date", type: "date", css: "date-field", filtering: false},
             { name: "Start Time", type: "time", css: "time-field", filtering: false, sorting: false},
             { name: "Volunteer Hours", type: "decimal", width: 50, filtering: false },
-            { name: "Status", type: "select", items: status, valueField: "Id", textField: "Name", valueType: "string", filtering: false, editcss: "status-edit"},
+            { name: "Status", type: "select", items: status, valueField: "Id", textField: "Name", valueType: "string", filtering: false, sorting: false, editcss: "status-edit",
+                headerTemplate: function() {
+                  return '<span id="statuscontrol">Status <br/><i class="fa fa-clone" aria-hidden="true" title="Click to copy status in the first row to all rows"></i></span>';
+                }
+            },
             { type: "control", deleteButton: false }
         ],
 
@@ -419,7 +426,6 @@ jQuery(document).ready(function($) {
         },
 
         controller: {
-
             insertItem: function(item) {
                 var d = $.Deferred();
                 item.contact_id = php_vars.cid;
@@ -463,7 +469,6 @@ jQuery(document).ready(function($) {
                 var d = $.Deferred();
                 filter.cid = php_vars.cid;
                 filter.actionmethod = 'search';
-                console.log(filter);
                 // server-side filtering
                 $.ajax({
                     type: "POST",
@@ -482,49 +487,49 @@ jQuery(document).ready(function($) {
 
     $('#btnBatchSave1').prop('disabled', true);
     $('#btnBatchCancel1').prop('disabled', true);
-    $('#copyVals').prop('disabled', true);
+    $('#statuscontrol i').hide();
 
     $("#batch-controls").on('click', '#btnBatchEdit1', function() {
-        $.each([2,3,4,5,6,7], function(index, field) {
+        $.each([2,3,4,5,6,7,8], function(index, field) {
             $grid.jsGrid("fieldOption", field, "readOnly", true);
         });
-        $grid.jsGrid("fieldOption", 9, "visible", false);
+        $grid.jsGrid("fieldOption", 10, "visible", false);
         $('#btnBatchEdit1').prop('disabled', true);
         var rows = $grid.jsGrid("option", "data");
         $grid.jsGrid("editItems_forBatch", rows);
         $('#btnBatchSave1').prop('disabled', false);
         $('#btnBatchCancel1').prop('disabled', false);
-        $('#copyVals').prop('disabled', false);
+        $('#statuscontrol i').show();
         $('.jsgrid-filter-row').hide();
     });
 
     $("#batch-controls").on('click', '#btnBatchSave1', function() {
         if($grid.jsGrid("updateItems_forBatch")){
-            $.each([2,3,4,5,6,7], function(index, field) {
+            $.each([2,3,4,5,6,7,8], function(index, field) {
                 $grid.jsGrid("fieldOption", field, "readOnly", false);
             });
-            $grid.jsGrid("fieldOption", 9, "visible", true);
+            $grid.jsGrid("fieldOption", 10, "visible", true);
             $('#btnBatchSave1').prop('disabled', true);
             $('#btnBatchCancel1').prop('disabled', true);
             $('#btnBatchEdit1').prop('disabled', false);
-            $('#copyVals').prop('disabled', true);
+            $('#statuscontrol i').hide();
             $('.jsgrid-filter-row').show();
         }
     });
     $("#batch-controls").on('click', '#btnBatchCancel1', function() {
         var rows = $grid.jsGrid("option", "data");
         $grid.jsGrid("cancelEdit_forBatch", rows);
-        $.each([2,3,4,5,6,7], function(index, field) {
+        $.each([2,3,4,5,6,7,8], function(index, field) {
             $grid.jsGrid("fieldOption", field, "readOnly", false);
         });
-        $grid.jsGrid("fieldOption", 9, "visible", true);
+        $grid.jsGrid("fieldOption", 10, "visible", true);
         $('#btnBatchSave1').prop('disabled', true);
         $('#btnBatchCancel1').prop('disabled', true);
         $('#btnBatchEdit1').prop('disabled', false);
-        $('#copyVals').prop('disabled', true);
+        $('#statuscontrol i').hide();
     });
 
-    $("#batch-controls").on('click', '#copyVals', function() {
+    $(document).on('click', '#statuscontrol', function() {
         var gridBody = $("#jsGrid").find('.jsgrid-grid-body');
         //fire the click event of first row to select first item.
         var status = gridBody.find('.jsgrid-table tr:first-child .status-edit select option').filter(":selected").val();
@@ -533,6 +538,5 @@ jQuery(document).ready(function($) {
                 $(sel).val(status);
             });
         }
-        $('.jsgrid-filter-row').show();
     });
 });

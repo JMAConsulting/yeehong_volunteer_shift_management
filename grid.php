@@ -13,9 +13,6 @@ get_header();
     <button type="button" id="btnBatchCancel1">
         Cancel Batch
     </button>
-    <button type="button" id="copyVals">
-        Update All Volunteer Status
-    </button>
 </div>
 <div id="jsGrid"></div>
 
