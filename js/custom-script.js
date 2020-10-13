@@ -79,6 +79,34 @@ jQuery(document).ready(function($) {
 
     jsGrid.fields.decimal = jsGrid.YhvDecimalField = YhvDecimalField;
 
+    var YhvTimeField = function(config) {
+        jsGrid.Field.call(this, config);
+    };
+
+    YhvTimeField.prototype = new jsGrid.Field({
+        css: "time-field",
+        align: "center",
+
+        itemTemplate: function(value) {
+            return value;
+        },
+
+        insertTemplate: function(value) {
+            return this._insertPicker = $("<input>").timepicker();
+        },
+        editTemplate: function(value) {
+            return this._editPicker = $("<input>").timepicker().timepicker("setTime", value);
+        },
+        insertValue: function() {
+            return this._insertPicker.val();
+        },
+        editValue: function() {
+            return this._editPicker.val();
+        }
+    });
+
+    jsGrid.fields.time = jsGrid.YhvTimeField = YhvTimeField;
+
     var $grid = $("#jsGrid");
 
     $("#jsGrid").jsGrid({
@@ -269,6 +297,7 @@ jQuery(document).ready(function($) {
             },
             { name: "Program", type: "select", items: programs, valueField: "Id", textField: "Name", valueType: "string", filtering: true, insertcss: "prog-insert", editcss: "prog-edit"},
             { name: "Date", type: "date", css: "date-field", filtering: false},
+            { name: "Start Time", type: "time", css: "time-field", filtering: false, sorting: false},
             { name: "Volunteer Hours", type: "decimal", width: 50, filtering: false },
             { name: "Status", type: "select", items: status, valueField: "Id", textField: "Name", valueType: "string", filtering: false, editcss: "status-edit"},
             { type: "control", deleteButton: false }
