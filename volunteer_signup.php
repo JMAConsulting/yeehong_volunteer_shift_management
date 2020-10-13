@@ -32,7 +32,7 @@ function add_to_cs_head() {
   $params = [
     'contact_id' => $cid,
   ];
-  $options = ['limit', 0];
+  $options = ['limit' => 0];
 
   $call = wpcmrf_api('Yhvsignup', 'getshifts', $params, $options, CMRF_ID);
   $shifts = $call->getReply();
