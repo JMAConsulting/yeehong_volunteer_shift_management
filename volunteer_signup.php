@@ -48,6 +48,8 @@ function add_to_cs_head() {
   $call = wpcmrf_api('Yhvsignup', 'getselectvals', $params, $options, CMRF_ID);
   $selects = $call->getReply();
 
+  $params['target'] = get_site_url();
+
   $call = wpcmrf_api('Yhvsignup', 'geturls', $params, $options, CMRF_ID);
   $urls = $call->getReply();
 

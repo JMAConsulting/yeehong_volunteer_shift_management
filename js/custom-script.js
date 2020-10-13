@@ -52,6 +52,33 @@ jQuery(document).ready(function($) {
 
     jsGrid.fields.date = YhvDateField;
 
+    function YhvDecimalField(config) {
+        jsGrid.fields.number.call(this, config);
+    }
+
+    YhvDecimalField.prototype = new jsGrid.fields.number({
+
+        filterValue: function() {
+            return this.filterControl.val()
+                ? parseFloat(this.filterControl.val() || 0, 10)
+                : undefined;
+        },
+
+        insertValue: function() {
+            return this.insertControl.val()
+                ? parseFloat(this.insertControl.val() || 0, 10)
+                : undefined;
+        },
+
+        editValue: function() {
+            return this.editControl.val()
+                ? parseFloat(this.editControl.val() || 0, 10)
+                : undefined;
+        }
+    });
+
+    jsGrid.fields.decimal = jsGrid.YhvDecimalField = YhvDecimalField;
+
     var $grid = $("#jsGrid");
 
     $("#jsGrid").jsGrid({
@@ -125,12 +152,15 @@ jQuery(document).ready(function($) {
                         $.ajax({
                             url: php_vars.filterUrl,
                             type: "POST",
-                            data: loc
+                            data: loc,
+                            beforeSend: function ( xhr ) {
+                                $(".jsgrid-load-shader, .jsgrid-load-panel").show();
+                            },
                         }).done(function(output){
                             var filtereddivs = $.parseJSON(output);
                             divField.items = filtereddivs;
-                            console.log(output);
                             $(".div-insert").empty().append(divField.insertTemplate());
+                            $(".jsgrid-load-shader, .jsgrid-load-panel").hide();
                         });
                     });
                     return $insertControl;
@@ -151,11 +181,15 @@ jQuery(document).ready(function($) {
                         $.ajax({
                             url: php_vars.filterUrl,
                             type: "POST",
-                            data: loc
+                            data: loc,
+                            beforeSend: function ( xhr ) {
+                                $(".jsgrid-load-shader, .jsgrid-load-panel").show();
+                            },
                         }).done(function(output){
                             var filtereddivs = $.parseJSON(output);
                             divField.items = filtereddivs;
-                            $(".div-edit").empty().append(divField.insertTemplate());
+                            $(".div-edit").empty().append(divField.editTemplate());
+                            $(".jsgrid-load-shader, .jsgrid-load-panel").hide();
                         });
                     });
 
@@ -163,18 +197,21 @@ jQuery(document).ready(function($) {
                 },
             },
             { name: "Division", type: "select", items: divisions, valueField: "Id", textField: "Name", valueType: "string", filtering: true, insertcss: "div-insert", editcss: "div-edit",
-                itemTemplate: function(team) {
-                    return team;
+                itemTemplate: function(div) {
+                    return div;
                 },
 
                 insertTemplate: function() {
-                    var selectedLoc = $('.loc-insert select option:selected').val();
-
                     var progField = this._grid.fields[5];
                     var $insertControl = jsGrid.fields.select.prototype.insertTemplate.call(this);
 
                     $insertControl.on("change", function() {
                         var selectedDiv = $(this).val();
+                        var selectedLoc = $('.loc-insert select option:selected').val();
+                        if (selectedLoc === '') {
+                            alert('Please select Location!');
+                            return false;
+                        }
 
                         var divloc = {};
                         divloc['_value'] = selectedDiv;
@@ -183,18 +220,21 @@ jQuery(document).ready(function($) {
                         $.ajax({
                             url: php_vars.filterUrl,
                             type: "POST",
-                            data: divloc
+                            data: divloc,
+                            beforeSend: function ( xhr ) {
+                                $(".jsgrid-load-shader, .jsgrid-load-panel").show();
+                            },
                         }).done(function(output){
                             var filteredprogs = $.parseJSON(output);
                             progField.items = filteredprogs;
                             $(".prog-insert").empty().append(progField.insertTemplate());
+                            $(".jsgrid-load-shader, .jsgrid-load-panel").hide();
                         });
                     });
                     return $insertControl;
                 },
 
                 editTemplate: function (value) {
-                    var selectedLoc = $('.loc-edit select option:selected').val();
                     var progField = this._grid.fields[5];
                     // Retrieve the DOM element (select)
                     // Note: prototype.editTemplate
@@ -203,6 +243,7 @@ jQuery(document).ready(function($) {
                     // Attach onchange listener !
                     $editControl.change(function(){
                         var selectedDiv = $(this).val();
+                        var selectedLoc = $('.loc-edit select option:selected').val();
 
                         var divloc = {};
                         divloc['_value'] = selectedDiv;
@@ -211,11 +252,15 @@ jQuery(document).ready(function($) {
                         $.ajax({
                             url: php_vars.filterUrl,
                             type: "POST",
-                            data: loc
+                            data: divloc,
+                            beforeSend: function ( xhr ) {
+                                $(".jsgrid-load-shader, .jsgrid-load-panel").show();
+                            },
                         }).done(function(output){
                             var filteredprogs = $.parseJSON(output);
                             progField.items = filteredprogs;
-                            $(".prog-edit").empty().append(progField.insertTemplate());
+                            $(".prog-edit").empty().append(progField.editTemplate());
+                            $(".jsgrid-load-shader, .jsgrid-load-panel").hide();
                         });
                     });
 
@@ -224,8 +269,8 @@ jQuery(document).ready(function($) {
             },
             { name: "Program", type: "select", items: programs, valueField: "Id", textField: "Name", valueType: "string", filtering: true, insertcss: "prog-insert", editcss: "prog-edit"},
             { name: "Date", type: "date", css: "date-field", filtering: false},
-            { name: "Volunteer Hours", type: "number", width: 50, filtering: false },
-            { name: "Status", type: "select", items: status, valueField: "Id", textField: "Name", valueType: "string", filtering: false},
+            { name: "Volunteer Hours", type: "decimal", width: 50, filtering: false },
+            { name: "Status", type: "select", items: status, valueField: "Id", textField: "Name", valueType: "string", filtering: false, editcss: "status-edit"},
             { type: "control", deleteButton: false }
         ],
 
@@ -354,9 +399,13 @@ jQuery(document).ready(function($) {
                 $.ajax({
                     url: php_vars.actionUrl,
                     type: "POST",
-                    data: item
+                    data: item,
+                    beforeSend: function ( xhr ) {
+                        $(".jsgrid-load-shader, .jsgrid-load-panel").show();
+                    },
                 }).done(function(output){
                     d.resolve(item);
+                    $(".jsgrid-load-shader, .jsgrid-load-panel").hide();
                 });
                 return d.promise();
             },
@@ -372,8 +421,12 @@ jQuery(document).ready(function($) {
                 $.ajax({
                     url: php_vars.actionUrl,
                     type: "POST",
-                    data: item
+                    data: item,
+                    beforeSend: function ( xhr ) {
+                        $(".jsgrid-load-shader, .jsgrid-load-panel").show();
+                    },
                 }).done(function(output){
+                    $(".jsgrid-load-shader, .jsgrid-load-panel").hide();
                 });
             },
 
@@ -381,6 +434,7 @@ jQuery(document).ready(function($) {
                 var d = $.Deferred();
                 filter.cid = php_vars.cid;
                 filter.actionmethod = 'search';
+                console.log(filter);
                 // server-side filtering
                 $.ajax({
                     type: "POST",
@@ -444,12 +498,11 @@ jQuery(document).ready(function($) {
     $("#batch-controls").on('click', '#copyVals', function() {
         var gridBody = $("#jsGrid").find('.jsgrid-grid-body');
         //fire the click event of first row to select first item.
-        var status = gridBody.find('.jsgrid-table tr:first-child select option').filter(":selected").val();
+        var status = gridBody.find('.jsgrid-table tr:first-child .status-edit select option').filter(":selected").val();
         if (confirm('Are you sure you would like to mark all volunteer shifts as ' + status + '?')) {
-            $('select').each(function(i, sel) {
+            $('.status-edit select').each(function(i, sel) {
                 $(sel).val(status);
             });
-            $('#btnBatchSave1').trigger('click');
         }
         $('.jsgrid-filter-row').show();
     });
