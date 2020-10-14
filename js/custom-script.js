@@ -42,11 +42,15 @@ jQuery(document).ready(function($) {
         },
 
         insertValue: function() {
-            return this._insertPicker.datepicker("getDate").toISOString();
+            if (this._insertPicker.datepicker("getDate")) {
+                return this._insertPicker.datepicker("getDate").toISOString();
+            }
         },
 
         editValue: function() {
-            return this._editPicker.datepicker("getDate").toISOString();
+            if (this._editPicker.datepicker("getDate")) {
+                return this._editPicker.datepicker("getDate").toISOString();
+            }
         }
     });
 
@@ -110,6 +114,13 @@ jQuery(document).ready(function($) {
 
     jsGrid.fields.time = jsGrid.YhvTimeField = YhvTimeField;
 
+    jsGrid.validators.time = {
+        message: "Please enter a valid time, between 00:00 and 23:59",
+        validator: function(value, item) {
+            return /^([01]\d|2[0-3]|[0-9])(:[0-5]\d){1,2}$/.test(value);
+        }
+    }
+
     var $grid = $("#jsGrid");
 
     $("#jsGrid").jsGrid({
@@ -168,14 +179,31 @@ jQuery(document).ready(function($) {
         fields: [
             { name: "ID", type: "number", readOnly: true, editing:false, visible:false, filtering: false},
             { name: "Contact ID", type: "number", readOnly: true, editing:false, visible:false, filtering: false},
-            { name: "Job", type: "select", items: jobs, valueField: "Id", textField: "Name", valueType: "string", filtering: true },
+            { name: "Job", type: "select", items: jobs, valueField: "Id", textField: "Name", valueType: "string", filtering: true,
+                validate: {
+                    validator: "required",
+                    message: function() {
+                        return "Job is a required field";
+                    }
+                },
+            },
             { name: "Location", type: "select", items: locations, valueField: "Id", textField: "Name", valueType: "string", filtering: true, insertcss: "loc-insert", editcss: "loc-edit", filtercss: "loc-filter",
+                validate: {
+                    validator: "required",
+                    message: function() {
+                        return "Location is a required field";
+                    }
+                },
                 insertTemplate: function() {
                     var divField = this._grid.fields[4];
+                    var progField = this._grid.fields[5];
+                    divField.readOnly = true;
+                    progField.readOnly = true;
                     var $insertControl = jsGrid.fields.select.prototype.insertTemplate.call(this);
 
                     $insertControl.on("change", function() {
                         var selectedLoc = $(this).val();
+                        divField.readOnly = false;
 
                         var loc = {};
                         loc['_value'] = selectedLoc;
@@ -198,6 +226,9 @@ jQuery(document).ready(function($) {
                  },
                 editTemplate: function (value) {
                     var divField = this._grid.fields[4];
+                    var progField = this._grid.fields[5];
+                    divField.readOnly = true;
+                    progField.readOnly = true;
                     // Retrieve the DOM element (select)
                     // Note: prototype.editTemplate
                     var $editControl = jsGrid.fields.select.prototype.editTemplate.call(this, value);
@@ -205,6 +236,7 @@ jQuery(document).ready(function($) {
                     // Attach onchange listener !
                     $editControl.change(function(){
                         var selectedLoc = $(this).val();
+                        divField.readOnly = false;
 
                         var loc = {};
                         loc['_value'] = selectedLoc;
@@ -228,6 +260,13 @@ jQuery(document).ready(function($) {
                 },
             },
             { name: "Division", type: "select", items: divisions, valueField: "Id", textField: "Name", valueType: "string", filtering: true, insertcss: "div-insert", editcss: "div-edit",
+                validate: {
+                    validator: "required",
+                    message: function() {
+                        return "Division is a required field";
+                    }
+                },
+
                 itemTemplate: function(div) {
                     return div;
                 },
@@ -243,6 +282,7 @@ jQuery(document).ready(function($) {
                             alert('Please select Location!');
                             return false;
                         }
+                        progField.readOnly = false;
 
                         var divloc = {};
                         divloc['_value'] = selectedDiv;
@@ -275,6 +315,11 @@ jQuery(document).ready(function($) {
                     $editControl.change(function(){
                         var selectedDiv = $(this).val();
                         var selectedLoc = $('.loc-edit select option:selected').val();
+                        if (selectedLoc === '') {
+                            alert('Please select Location!');
+                            return false;
+                        }
+                        progField.readOnly = false;
 
                         var divloc = {};
                         divloc['_value'] = selectedDiv;
@@ -298,8 +343,22 @@ jQuery(document).ready(function($) {
                     return $editControl;
                 }
             },
-            { name: "Program", type: "select", items: programs, valueField: "Id", textField: "Name", valueType: "string", filtering: true, insertcss: "prog-insert", editcss: "prog-edit"},
-            { name: "Date", type: "date", css: "date-field", filtering: false},
+            { name: "Program", type: "select", items: programs, valueField: "Id", textField: "Name", valueType: "string", filtering: true, insertcss: "prog-insert", editcss: "prog-edit",
+                validate: {
+                    validator: "required",
+                    message: function() {
+                        return "Program is a required field";
+                    }
+                },
+            },
+            { name: "Date", type: "date", css: "date-field", filtering: false,
+                validate: {
+                    validator: "required",
+                    message: function() {
+                        return "Date is a required field";
+                    }
+                },
+            },
             { name: "Start Time", type: "time", width: 60, css: "time-field", filtering: false, sorting: false},
             { name: "Volunteer Hours", type: "decimal", width: 50, filtering: false },
             { name: "Status", type: "select", items: status, valueField: "Id", textField: "Name", valueType: "string", filtering: false, sorting: false, editcss: "status-edit",
