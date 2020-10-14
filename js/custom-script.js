@@ -300,7 +300,7 @@ jQuery(document).ready(function($) {
             },
             { name: "Program", type: "select", items: programs, valueField: "Id", textField: "Name", valueType: "string", filtering: true, insertcss: "prog-insert", editcss: "prog-edit"},
             { name: "Date", type: "date", css: "date-field", filtering: false},
-            { name: "Start Time", type: "time", css: "time-field", filtering: false, sorting: false},
+            { name: "Start Time", type: "time", width: 60, css: "time-field", filtering: false, sorting: false},
             { name: "Volunteer Hours", type: "decimal", width: 50, filtering: false },
             { name: "Status", type: "select", items: status, valueField: "Id", textField: "Name", valueType: "string", filtering: false, sorting: false, editcss: "status-edit",
                 headerTemplate: function() {
@@ -485,8 +485,8 @@ jQuery(document).ready(function($) {
         }
     });
 
-    $('#btnBatchSave1').prop('disabled', true);
-    $('#btnBatchCancel1').prop('disabled', true);
+    $('#btnBatchSave1').hide();
+    $('#btnBatchCancel1').hide();
     $('#statuscontrol i').hide();
 
     $("#batch-controls").on('click', '#btnBatchEdit1', function() {
@@ -494,11 +494,11 @@ jQuery(document).ready(function($) {
             $grid.jsGrid("fieldOption", field, "readOnly", true);
         });
         $grid.jsGrid("fieldOption", 10, "visible", false);
-        $('#btnBatchEdit1').prop('disabled', true);
+        $('#btnBatchEdit1').hide();
         var rows = $grid.jsGrid("option", "data");
         $grid.jsGrid("editItems_forBatch", rows);
-        $('#btnBatchSave1').prop('disabled', false);
-        $('#btnBatchCancel1').prop('disabled', false);
+        $('#btnBatchSave1').show();
+        $('#btnBatchCancel1').show();
         $('#statuscontrol i').show();
         $('.jsgrid-filter-row').hide();
     });
@@ -509,9 +509,9 @@ jQuery(document).ready(function($) {
                 $grid.jsGrid("fieldOption", field, "readOnly", false);
             });
             $grid.jsGrid("fieldOption", 10, "visible", true);
-            $('#btnBatchSave1').prop('disabled', true);
-            $('#btnBatchCancel1').prop('disabled', true);
-            $('#btnBatchEdit1').prop('disabled', false);
+            $('#btnBatchSave1').hide();
+            $('#btnBatchCancel1').hide();
+            $('#btnBatchEdit1').show();
             $('#statuscontrol i').hide();
             $('.jsgrid-filter-row').show();
         }
@@ -523,9 +523,9 @@ jQuery(document).ready(function($) {
             $grid.jsGrid("fieldOption", field, "readOnly", false);
         });
         $grid.jsGrid("fieldOption", 10, "visible", true);
-        $('#btnBatchSave1').prop('disabled', true);
-        $('#btnBatchCancel1').prop('disabled', true);
-        $('#btnBatchEdit1').prop('disabled', false);
+        $('#btnBatchSave1').hide();
+        $('#btnBatchCancel1').hide();
+        $('#btnBatchEdit1').show();
         $('#statuscontrol i').hide();
     });
 
