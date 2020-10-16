@@ -452,7 +452,10 @@ jQuery(document).ready(function($) {
             }).done(function(output){
                 $(".jsgrid-load-shader, .jsgrid-load-panel").hide();
             });
-
+            for(var i = 0; i < editedItems.length; i++) {
+                editedItems[i]['isEdited'] = true;
+                this._updateRow(editingRows[i], editedItems[i]);
+            }
             this.editFields_forBatch = [];
             this._editingRows_forBatch = [];
             return;
@@ -516,6 +519,9 @@ jQuery(document).ready(function($) {
             },
 
             updateItem: function(item) {
+                if (item.isEdited) {
+                    return;
+                }
                 item.contact_id = php_vars.cid;
                 item.actionmethod = 'update';
                 // updating data request
