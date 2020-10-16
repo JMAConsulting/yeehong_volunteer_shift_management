@@ -105,3 +105,19 @@ function set_volunteer_title($title, $id = null){
 }
 add_filter('the_title','set_volunteer_title', 10, 2);
 
+/**
+ * Get a field value and send to remote API
+ */
+add_action( 'caldera_forms_submit_complete', function( $form, $referrer, $process_id ) {
+  //change your form ID here
+  if( 'CF5f6b4c4483058' != $form[ 'ID' ] ) {
+    return;
+  }
+
+  //change your field ID here
+  $tb_file =   Caldera_Forms::get_field_data( 'fld_6719949', $form );
+
+  print_R($tb_file);exit;
+
+}, 10, 3 );
+

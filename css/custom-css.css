@@ -6,3 +6,7 @@
 input:read-only {
     background: #fdffe3;
 }
+
+.id-header, .id-view, .id-edit, #idcontrol {
+    display: none;
+}

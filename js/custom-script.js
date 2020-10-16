@@ -43,13 +43,13 @@ jQuery(document).ready(function($) {
 
         insertValue: function() {
             if (this._insertPicker.datepicker("getDate")) {
-                return this._insertPicker.datepicker("getDate").toISOString();
+                return this._insertPicker.datepicker("getDate").toDateString();
             }
         },
 
         editValue: function() {
             if (this._editPicker.datepicker("getDate")) {
-                return this._editPicker.datepicker("getDate").toISOString();
+                return this._editPicker.datepicker("getDate").toDateString();
             }
         }
     });
@@ -177,8 +177,8 @@ jQuery(document).ready(function($) {
         data: shifts,
 
         fields: [
-            { name: "ID", type: "number", readOnly: true, editing:false, visible:false, filtering: false},
-            { name: "Contact ID", type: "number", readOnly: true, editing:false, visible:false, filtering: false},
+            { name: "ID", type: "number", readOnly: true, visible:true, filtering: false, css: "id-view", editcss: "id-edit", headercss: "id-header"},
+            { name: "Contact ID", type: "number", readOnly: true, visible:false, filtering: false},
             { name: "Job", type: "select", items: jobs, valueField: "Id", textField: "Name", valueType: "string", filtering: true,
                 validate: {
                     validator: "required",
@@ -441,10 +441,17 @@ jQuery(document).ready(function($) {
                 editingRows.push(currentEditingRow);
                 editedItems.push(editedItem);
             }
-            for(var i = 0; i < editedItems.length; i++)
-            {
-                this._updateRow(editingRows[i], editedItems[i]);
-            }
+            var batchData = {"batchupdate": editedItems, "cid": php_vars.cid};
+            $.ajax({
+                url: php_vars.actionUrl,
+                type: "POST",
+                data: batchData,
+                beforeSend: function ( xhr ) {
+                    $(".jsgrid-load-shader, .jsgrid-load-panel").show();
+                },
+            }).done(function(output){
+                $(".jsgrid-load-shader, .jsgrid-load-panel").hide();
+            });
 
             this.editFields_forBatch = [];
             this._editingRows_forBatch = [];
