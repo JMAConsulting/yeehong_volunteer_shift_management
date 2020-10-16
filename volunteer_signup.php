@@ -99,7 +99,9 @@ function set_volunteer_title($title, $id = null){
       ];
 
       $call = wpcmrf_api('Contact', 'getvalue', $params, $options, CMRF_ID);
-      return $call->getReply()['result'];
+      if ($title == "Volunteer Signup") {
+        $title = $call->getReply()['result'];
+      }
     }
   }
   return $title;
