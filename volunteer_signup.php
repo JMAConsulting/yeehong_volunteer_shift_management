@@ -28,8 +28,9 @@ function add_to_cs_head() {
   wp_enqueue_style('jquery-timepicker-css', 'https://cdnjs.cloudflare.com/ajax/libs/timepicker/1.3.5/jquery.timepicker.min.css');
 
   // Enqueue custom libraries
-  wp_enqueue_script( 'custom-script', plugin_dir_url( __FILE__ ) . 'js/custom-script.js' );
-  wp_enqueue_style( 'custom-css', plugin_dir_url( __FILE__ ) . 'css/custom-css.css' );
+  $ver = rand(1000,9999);
+  wp_enqueue_script( 'custom-script', plugin_dir_url( __FILE__ ) . 'js/custom-script.js', array(), $ver);
+  wp_enqueue_style( 'custom-css', plugin_dir_url( __FILE__ ) . 'css/custom-css.css', array(), $ver );
 
   // Retrieve the contact id.
   $cid = $_GET['cid'];
