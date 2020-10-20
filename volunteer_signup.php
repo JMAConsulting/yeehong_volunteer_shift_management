@@ -33,7 +33,7 @@ function add_to_cs_head() {
   wp_enqueue_style( 'custom-css', plugin_dir_url( __FILE__ ) . 'css/custom-css.css', array(), $ver );
 
   // Retrieve the contact id.
-  $cid = $_GET['cid'];
+  $cid = $_COOKIE['volunteer_cid'];
   $params = [
     'contact_id' => $cid,
   ];
@@ -41,6 +41,9 @@ function add_to_cs_head() {
 
   $call = wpcmrf_api('Yhvsignup', 'getshifts', $params, $options, CMRF_ID);
   $shifts = $call->getReply();
+  if (empty($shifts['values'])) {
+    $shifts['values'] = [];
+  }
 
   $params = [
     'Job',
@@ -75,7 +78,7 @@ add_action( 'wp_enqueue_scripts', 'add_to_cs_head', 50);
 
 add_filter( 'page_template', 'add_jsgrid_template' );
 function add_jsgrid_template( $page_template ) {
-  if (is_page( 'volunteer-signup' )) {
+  if (is_page( 'volunteer-shift' )) {
     $page_template = __DIR__.'/grid.php';
   }
   if (is_page('volunteer-action')) {
@@ -94,13 +97,13 @@ function set_volunteer_title($title, $id = null){
       $options = [];
       $params = [
         'sequential' => 1,
-        'contact_id' => $_GET['cid'],
+        'contact_id' => $_COOKIE['volunteer_cid'],
         'return' => 'display_name',
       ];
 
       $call = wpcmrf_api('Contact', 'getvalue', $params, $options, CMRF_ID);
-      if ($title == "Volunteer Signup") {
-        $title = $call->getReply()['result'];
+      if ($title == 'Volunteer Shift Management') {
+        return $call->getReply()['result'];
       }
     }
   }
@@ -108,19 +111,22 @@ function set_volunteer_title($title, $id = null){
 }
 add_filter('the_title','set_volunteer_title', 10, 2);
 
-/**
- * Get a field value and send to remote API
- */
-add_action( 'caldera_forms_submit_complete', function( $form, $referrer, $process_id ) {
-  //change your form ID here
-  if( 'CF5f6b4c4483058' != $form[ 'ID' ] ) {
-    return;
+add_filter( 'wp_nav_menu_items', 'yhv_loginout_menu_link', 10, 2 );
+function yhv_loginout_menu_link( $items, $args ) {
+  if ($args->theme_location == 'primary') {
+    if (!empty($_COOKIE['volunteer_cid'])) {
+      $items .= '<li class="right"><a href="' . get_site_url() . '/volunteer-login?action=logout">'. __("Log Out") .'</a></li>';
+    } else {
+      $items .= '<li class="right"><a href="' . get_site_url() . '/volunteer-login">'. __("Log In") .'</a></li>';
+    }
   }
+  return $items;
+}
 
-  //change your field ID here
-  $tb_file =   Caldera_Forms::get_field_data( 'fld_6719949', $form );
-
-  print_R($tb_file);exit;
-
-}, 10, 3 );
+add_filter( 'caldera_forms_render_get_field', function( $field ) {
+  if ('fld_2736100' == $field['ID']) {
+    $field['config']['default'] = 2;
+  }
+  return $field;
+});
 
