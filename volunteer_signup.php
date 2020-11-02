@@ -103,30 +103,11 @@ function set_volunteer_title($title, $id = null){
 
       $call = wpcmrf_api('Contact', 'getvalue', $params, $options, CMRF_ID);
       if ($title == 'Volunteer Shift Management') {
-        return $call->getReply()['result'];
+        return $call->getReply()['result'] . ' : Shift Management';
       }
     }
   }
   return $title;
 }
 add_filter('the_title','set_volunteer_title', 10, 2);
-
-add_filter( 'wp_nav_menu_items', 'yhv_loginout_menu_link', 10, 2 );
-function yhv_loginout_menu_link( $items, $args ) {
-  if ($args->theme_location == 'primary') {
-    if (!empty($_COOKIE['volunteer_cid'])) {
-      $items .= '<li class="right"><a href="' . get_site_url() . '/volunteer-login?action=logout">'. __("Log Out") .'</a></li>';
-    } else {
-      $items .= '<li class="right"><a href="' . get_site_url() . '/volunteer-login">'. __("Log In") .'</a></li>';
-    }
-  }
-  return $items;
-}
-
-add_filter( 'caldera_forms_render_get_field', function( $field ) {
-  if ('fld_2736100' == $field['ID']) {
-    $field['config']['default'] = 2;
-  }
-  return $field;
-});
 
