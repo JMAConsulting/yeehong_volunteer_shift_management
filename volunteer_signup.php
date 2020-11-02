@@ -91,7 +91,7 @@ function add_jsgrid_template( $page_template ) {
 }
 
 function set_volunteer_title($title, $id = null){
-  if (!is_admin() && !is_null( $id )) {
+  if (!is_admin() && !is_null( $id ) && !empty($_COOKIE['volunteer_cid'])) {
     $post = get_post( $id );
     if ($post instanceof WP_Post && ($post->post_type == 'post' || $post->post_type == 'page')) {
       $options = [];
