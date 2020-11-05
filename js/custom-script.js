@@ -96,7 +96,7 @@ jQuery(document).ready(function($) {
         },
 
         insertTemplate: function(value) {
-            return this._insertPicker = $("<input>").timepicker();
+            return this._insertPicker = $("<input>").timepicker({ timeFormat: 'H:mm' });
         },
         editTemplate: function(value) {
             if (this.readOnly) {
@@ -180,6 +180,9 @@ jQuery(document).ready(function($) {
             { name: "ID", type: "number", readOnly: true, visible:true, filtering: false, css: "id-view", editcss: "id-edit", headercss: "id-header"},
             { name: "Contact ID", type: "number", readOnly: true, visible:false, filtering: false},
             { name: "Job", type: "select", items: jobs, valueField: "Id", textField: "Name", valueType: "string", filtering: true,
+                headerTemplate: function() {
+                    return 'Job';
+                },
                 validate: {
                     validator: "required",
                     message: function() {
@@ -188,6 +191,9 @@ jQuery(document).ready(function($) {
                 },
             },
             { name: "Location", type: "select", items: locations, valueField: "Id", textField: "Name", valueType: "string", filtering: true, insertcss: "loc-insert", editcss: "loc-edit", filtercss: "loc-filter",
+                headerTemplate: function() {
+                    return 'Location';
+                },
                 validate: {
                     validator: "required",
                     message: function() {
@@ -260,17 +266,18 @@ jQuery(document).ready(function($) {
                 },
             },
             { name: "Division", type: "select", items: divisions, valueField: "Id", textField: "Name", valueType: "string", filtering: true, insertcss: "div-insert", editcss: "div-edit",
+                headerTemplate: function() {
+                    return 'Division';
+                },
                 validate: {
                     validator: "required",
                     message: function() {
                         return "Division is a required field";
                     }
                 },
-
                 itemTemplate: function(div) {
                     return div;
                 },
-
                 insertTemplate: function() {
                     var progField = this._grid.fields[5];
                     var $insertControl = jsGrid.fields.select.prototype.insertTemplate.call(this);
@@ -304,7 +311,6 @@ jQuery(document).ready(function($) {
                     });
                     return $insertControl;
                 },
-
                 editTemplate: function (value) {
                     var progField = this._grid.fields[5];
                     // Retrieve the DOM element (select)
@@ -344,6 +350,9 @@ jQuery(document).ready(function($) {
                 }
             },
             { name: "Program", type: "select", items: programs, valueField: "Id", textField: "Name", valueType: "string", filtering: true, insertcss: "prog-insert", editcss: "prog-edit",
+                headerTemplate: function() {
+                    return 'Program';
+                },
                 validate: {
                     validator: "required",
                     message: function() {
@@ -352,6 +361,9 @@ jQuery(document).ready(function($) {
                 },
             },
             { name: "Date", type: "date", css: "date-field", filtering: false,
+                headerTemplate: function() {
+                    return 'Date';
+                },
                 validate: {
                     validator: "required",
                     message: function() {
@@ -359,8 +371,16 @@ jQuery(document).ready(function($) {
                     }
                 },
             },
-            { name: "Start Time", type: "time", width: 60, css: "time-field", filtering: false, sorting: false},
-            { name: "Volunteer Hours", type: "decimal", width: 50, filtering: false },
+            { name: "Start Time", type: "time", width: 60, css: "time-field", filtering: false, sorting: false,
+                headerTemplate: function() {
+                    return 'Start Time';
+                },
+            },
+            { name: "Volunteer Hours", type: "decimal", width: 50, filtering: false,
+                headerTemplate: function() {
+                    return 'Volunteer Hours';
+                },
+            },
             { name: "Status", type: "select", items: status, valueField: "Id", textField: "Name", valueType: "string", filtering: false, sorting: false, editcss: "status-edit",
                 headerTemplate: function() {
                   return '<span id="statuscontrol">Status <br/><i class="fa fa-clone" aria-hidden="true" title="Click to copy status in the first row to all rows"></i></span>';
