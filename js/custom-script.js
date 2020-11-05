@@ -96,13 +96,13 @@ jQuery(document).ready(function($) {
         },
 
         insertTemplate: function(value) {
-            return this._insertPicker = $("<input>").timepicker({ timeFormat: 'H:mm' });
+            return this._insertPicker = $("<input>").timepicker({ timeFormat: 'HH:mm' });
         },
         editTemplate: function(value) {
             if (this.readOnly) {
-                return this._editPicker = $("<input>").timepicker().timepicker("setTime", value).addClass('freezeDate');
+                return this._editPicker = $("<input>").timepicker({ timeFormat: 'HH:mm' }).timepicker("setTime", value).addClass('freezeDate');
             }
-            return this._editPicker = $("<input>").timepicker().timepicker("setTime", value);
+            return this._editPicker = $("<input>").timepicker({ timeFormat: 'HH:mm' }).timepicker("setTime", value);
         },
         insertValue: function() {
             return this._insertPicker.val();
