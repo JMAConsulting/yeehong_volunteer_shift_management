@@ -6,12 +6,12 @@ get_header();
 <div id="jsGrid"></div>
 <div id="batch-controls">
     <button type="button" id="btnBatchEdit1">
-        Batch Update Volunteer Shift Status
+        Batch Update Volunteer Shift Status 批量更新義工班次狀態
     </button>
     <button type="button" id="btnBatchSave1">
-        Save
+        Save 保存
     </button>
     <button type="button" id="btnBatchCancel1">
-        Cancel
+        Cancel 取消
     </button>
 </div>

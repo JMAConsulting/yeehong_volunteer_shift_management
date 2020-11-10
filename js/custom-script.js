@@ -141,6 +141,15 @@ jQuery(document).ready(function($) {
         deleteButton: false,
         clearFilterButton: true,
         modeSwitchButton: true,
+        searchModeButtonTooltip: "Switch to searching 轉至搜索", // tooltip of switching filtering/inserting button in inserting mode
+        insertModeButtonTooltip: "Switch to inserting 轉至添加", // tooltip of switching filtering/inserting button in filtering mode
+        editButtonTooltip: "Edit 編輯",                      // tooltip of edit item button
+        deleteButtonTooltip: "Delete",                  // tooltip of delete item button
+        searchButtonTooltip: "Search 搜索",                  // tooltip of search button
+        clearFilterButtonTooltip: "Clear filter 清除篩選條件",       // tooltip of clear filter button
+        insertButtonTooltip: "Insert 添加",                  // tooltip of insert button
+        updateButtonTooltip: "Update 更新",                  // tooltip of update item button
+        cancelEditButtonTooltip: "Cancel edit",         // tooltip of cancel editing button
 
         noDataContent: "No volunteer shifts found",
 
@@ -181,23 +190,23 @@ jQuery(document).ready(function($) {
             { name: "Contact ID", type: "number", readOnly: true, visible:false, filtering: false},
             { name: "Job", type: "select", items: jobs, valueField: "Id", textField: "Name", valueType: "string", filtering: true,
                 headerTemplate: function() {
-                    return 'Job';
+                    return 'Job 職位';
                 },
                 validate: {
                     validator: "required",
                     message: function() {
-                        return "Job is a required field";
+                        return "Job is a required field 職位為必填項";
                     }
                 },
             },
             { name: "Location", type: "select", items: locations, valueField: "Id", textField: "Name", valueType: "string", filtering: true, insertcss: "loc-insert", editcss: "loc-edit", filtercss: "loc-filter",
                 headerTemplate: function() {
-                    return 'Location';
+                    return 'Location 地點';
                 },
                 validate: {
                     validator: "required",
                     message: function() {
-                        return "Location is a required field";
+                        return "Location is a required field 地點為必填項";
                     }
                 },
                 insertTemplate: function() {
@@ -267,12 +276,12 @@ jQuery(document).ready(function($) {
             },
             { name: "Division", type: "select", items: divisions, valueField: "Id", textField: "Name", valueType: "string", filtering: true, insertcss: "div-insert", editcss: "div-edit",
                 headerTemplate: function() {
-                    return 'Division';
+                    return 'Division 分支';
                 },
                 validate: {
                     validator: "required",
                     message: function() {
-                        return "Division is a required field";
+                        return "Division is a required field 分支為必填項";
                     }
                 },
                 itemTemplate: function(div) {
@@ -351,39 +360,45 @@ jQuery(document).ready(function($) {
             },
             { name: "Program", type: "select", items: programs, valueField: "Id", textField: "Name", valueType: "string", filtering: true, insertcss: "prog-insert", editcss: "prog-edit",
                 headerTemplate: function() {
-                    return 'Program';
+                    return 'Program 服務部門';
                 },
                 validate: {
                     validator: "required",
                     message: function() {
-                        return "Program is a required field";
+                        return "Program is a required field 服務部門為必填項";
                     }
                 },
             },
             { name: "Date", type: "date", css: "date-field", filtering: false,
                 headerTemplate: function() {
-                    return 'Date';
+                    return 'Date 日期';
                 },
                 validate: {
                     validator: "required",
                     message: function() {
-                        return "Date is a required field";
+                        return "Date is a required field 日期為必填項";
                     }
                 },
             },
             { name: "Start Time", type: "time", width: 60, css: "time-field", filtering: false, sorting: false,
                 headerTemplate: function() {
-                    return 'Start Time';
+                    return 'Start Time 開始時間';
+                },
+                validate: {
+                    validator: "required",
+                    message: function() {
+                        return "Start Time is a required field 開始時間為必填項";
+                    }
                 },
             },
             { name: "Volunteer Hours", type: "decimal", width: 50, filtering: false,
                 headerTemplate: function() {
-                    return 'Volunteer Hours';
+                    return 'Volunteer Hours 義工時數';
                 },
             },
             { name: "Status", type: "select", items: status, valueField: "Id", textField: "Name", valueType: "string", filtering: false, sorting: false, editcss: "status-edit",
                 headerTemplate: function() {
-                  return '<span id="statuscontrol">Status <br/><i class="fa fa-clone" aria-hidden="true" title="Click to copy status in the first row to all rows"></i></span>';
+                  return '<span id="statuscontrol">Status 狀態<br/><i class="fa fa-clone" aria-hidden="true" title="Click to copy status in the first row to all rows 點擊此處複製第一行狀態至所有行"></i></span>';
                 }
             },
             { type: "control", deleteButton: false }
