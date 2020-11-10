@@ -102,8 +102,8 @@ function set_volunteer_title($title, $id = null){
       ];
 
       $call = wpcmrf_api('Contact', 'getvalue', $params, $options, CMRF_ID);
-      if ($title == 'Volunteer Shift Management') {
-        return $call->getReply()['result'] . ' : Shift Management';
+      if ($title == 'Submit Hours') {
+        return $call->getReply()['result'] . ' : Submit Hours';
       }
     }
   }
