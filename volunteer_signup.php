@@ -32,6 +32,13 @@ function add_to_cs_head() {
   wp_enqueue_script( 'custom-script', plugin_dir_url( __FILE__ ) . 'js/custom-script.js', array(), $ver);
   wp_enqueue_style( 'custom-css', plugin_dir_url( __FILE__ ) . 'css/custom-css.css', array(), $ver );
 
+  /**
+   * Load our IE-only stylesheet for all versions of IE:
+   * <!--[if IE]> ... <![endif]-->
+   */
+  wp_enqueue_style( 'my-theme-ie', plugin_dir_url( __FILE__ ) . "/css/ie.css", array(), $ver );
+  wp_style_add_data( 'my-theme-ie', 'conditional', 'IE' );
+
   // Retrieve the contact id.
   $cid = $_COOKIE['volunteer_cid'];
   $params = [
