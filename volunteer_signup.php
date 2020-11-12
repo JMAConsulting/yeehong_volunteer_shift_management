@@ -36,7 +36,7 @@ function add_to_cs_head() {
    * Load our IE-only stylesheet for IE 11:
    * <!--[if IE 11]> ... <![endif]-->
    */
-  wp_enqueue_style( 'my-theme-ie', plugin_dir_url( __FILE__ ) . "/css/ie.css", array(), $ver );
+  wp_enqueue_style( 'my-theme-ie', plugin_dir_url( __FILE__ ) . "css/ie.css", array(), $ver );
   wp_style_add_data( 'my-theme-ie', 'conditional', 'IE 11' );
 
   // Retrieve the contact id.

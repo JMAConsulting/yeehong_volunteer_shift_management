@@ -10,3 +10,7 @@ input:read-only {
 .id-header, .id-view, .id-edit, #idcontrol {
     display: none;
 }
+
+.caldera-grid .checkbox input[type=checkbox], .caldera-grid .checkbox-inline input[type=checkbox], .caldera-grid .radio input[type=radio], .caldera-grid .radio-inline input[type=radio] {
+    margin-left: 0px !important;
+}
