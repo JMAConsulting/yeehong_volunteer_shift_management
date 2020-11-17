@@ -15,3 +15,5 @@ get_header();
         Cancel 取消
     </button>
 </div>
+
+<?php wp_footer(); ?>
