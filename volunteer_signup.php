@@ -109,8 +109,8 @@ function set_volunteer_title($title, $id = null){
       ];
 
       $call = wpcmrf_api('Contact', 'getvalue', $params, $options, CMRF_ID);
-      if ($title == 'Submit Hours') {
-        return $call->getReply()['result'] . ' : Submit Hours';
+      if (strpos($title, 'Submit Hours') !== false) {
+        return $call->getReply()['result'] . ' : Submit Hours 提交義工時數';
       }
     }
   }
