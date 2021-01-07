@@ -3,7 +3,7 @@
     background: #fdffe3;
 }
 
-input:read-only {
+input[readonly], input[readonly="readonly"] {
     background: #fdffe3;
 }
 
