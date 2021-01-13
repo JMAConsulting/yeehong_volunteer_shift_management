@@ -374,11 +374,24 @@ jQuery(document).ready(function($) {
                     return 'Date 日期';
                 },
                 validate: {
-                    validator: "required",
                     message: function() {
                         return "Date is a required field 日期為必填項";
+                    },
+                    validator: function(value, item) {
+                        if (item.ID) {
+                            // Remove validation on edit mode, since this causes issues with batch update.
+                            return true;
+                        }
+                        else {
+                            if (value) {
+                                return false;
+                            }
+                            else {
+                                return true;
+                            }
+                        }
                     }
-                },
+                }
             },
             { name: "Start Time", type: "time", width: 60, css: "time-field", filtering: false, sorting: false,
                 headerTemplate: function() {
@@ -507,7 +520,7 @@ jQuery(document).ready(function($) {
         _getEditedItem_forBatch: function (myfields) {
             var result = {};
             this._eachField_forBatch(myfields, function (field) {
-                if (field.editing) {
+                if (field.editing && field.type != 'date') {
                     this._setItemFieldValue(result, field, field.editValue());
                 }
             });
