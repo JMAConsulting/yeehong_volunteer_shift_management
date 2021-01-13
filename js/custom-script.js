@@ -9,9 +9,9 @@ jQuery(document).ready(function($) {
     var programs = $.parseJSON(php_vars.Program);
     var locations = $.parseJSON(php_vars.Location);
     var status = [
-        { Name: "Scheduled", Id: "Scheduled" },
-        { Name: "Completed", Id: "Completed" },
-        { Name: "Cancelled", Id: "Cancelled" },
+        { Name: "Scheduled 計劃", Id: "Scheduled" },
+        { Name: "Completed 完成", Id: "Completed" },
+        { Name: "Cancelled 取消", Id: "Cancelled" },
     ];
 
     var YhvDateField = function(config) {
