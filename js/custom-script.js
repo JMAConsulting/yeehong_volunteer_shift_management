@@ -368,6 +368,9 @@ jQuery(document).ready(function($) {
                         return "Program is a required field 服務部門為必填項";
                     }
                 },
+                itemTemplate: function(prog) {
+                    return prog;
+                },
             },
             { name: "Date", type: "date", css: "date-field", filtering: false,
                 headerTemplate: function() {
