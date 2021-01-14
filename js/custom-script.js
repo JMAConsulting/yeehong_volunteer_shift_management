@@ -653,7 +653,11 @@ jQuery(document).ready(function($) {
         var gridBody = $("#jsGrid").find('.jsgrid-grid-body');
         //fire the click event of first row to select first item.
         var status = gridBody.find('.jsgrid-table tr:first-child .status-edit select option').filter(":selected").val();
-        if (confirm('Are you sure you would like to mark all volunteer shifts as ' + status + '? 您是否確定要把所有義工班次的狀態都標記為 ' + status + '?')) {
+        var translatedstatus = {};
+        translatedstatus["Completed"] = "完成";
+        translatedstatus["Scheduled"] = "計劃";
+        translatedstatus["Cancelled"] = "取消";
+        if (confirm('Are you sure you would like to mark all volunteer shifts as ' + status + '? 您是否確定要把所有義工班次的狀態都標記為 ' + translatedstatus.status + '?')) {
             $('.status-edit select').each(function(i, sel) {
                 $(sel).val(status);
             });
