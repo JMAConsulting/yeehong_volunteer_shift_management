@@ -657,7 +657,7 @@ jQuery(document).ready(function($) {
         translatedstatus["Completed"] = "完成";
         translatedstatus["Scheduled"] = "計劃";
         translatedstatus["Cancelled"] = "取消";
-        if (confirm('Are you sure you would like to mark all volunteer shifts as ' + status + '? 您是否確定要把所有義工班次的狀態都標記為 ' + translatedstatus.status + '?')) {
+        if (confirm('Are you sure you would like to mark all volunteer shifts as ' + status + '? 您是否確定要把所有義工班次的狀態都標記為' + translatedstatus.status + '?')) {
             $('.status-edit select').each(function(i, sel) {
                 $(sel).val(status);
             });
