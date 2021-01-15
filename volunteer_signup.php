@@ -87,6 +87,9 @@ function add_jsgrid_template( $page_template ) {
   if (is_page('volunteer-filter')) {
     $page_template = __DIR__.'/filter.php';
   }
+  if (is_page('volunteer-signup')) {
+    $page_template = __DIR__.'/validate.php';
+  }
   return $page_template;
 }
 

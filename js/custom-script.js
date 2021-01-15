@@ -1,4 +1,7 @@
 jQuery(document).ready(function($) {
+
+
+
     var JSGRID_EDIT_ROW_DATA_KEY = "JSGridEditRow";
     var JSGRID_ROW_DATA_KEY = "JSGridItem";
     var editRowClass = "jsgrid-edit-row";
@@ -676,4 +679,27 @@ jQuery(document).ready(function($) {
     $('.jsgrid-insert-button').attr('title', 'Insert 添加');
     $('.jsgrid-search-mode-button').attr('Switch to searching 轉至搜索');
     $('.jsgrid-filter-button').attr('title', 'Filter 篩選條件');
+});
+
+jQuery( document ).on( 'cf.form.init', function (event, data ) {
+    if ('CF5f63138ba9942' === data.formId) {
+        jQuery('.check-validation').click(function (e) {
+            // Check email.
+            var email = jQuery('#fld_5566226_1').val();
+            var postdata = {};
+            postdata['email'] = email;
+            jQuery.ajax({
+                url: php_vars.validateUrl,
+                type: "POST",
+                data: postdata,
+            }).done(function(output){
+                if (output) {
+                    jQuery('#fld_5566226_1-wrap').addClass('has-error');
+                    jQuery('#fld_5566226_1').addClass('parsley-error');
+                    jQuery('#fld_5566226_1').parent('div').append('<span class="help-block caldera_ajax_error_block filled" aria-live="polite"><span class="parsley-custom-error-message">A volunteer with this email already exists. Please use a different email.</span></span>');
+                    return false;
+                }
+            });
+        });
+    }
 });
