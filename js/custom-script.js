@@ -686,28 +686,27 @@ jQuery( document ).on( 'cf.form.init', function (event, data ) {
         jQuery('.check-validation').click(function (e) {
             // Check email.
             var email = jQuery('#fld_5566226_1').val();
-	    if (email) {
-            var postdata = {};
-            postdata['email'] = email;
-            jQuery.ajax({
+	        if (email) {
+              var postdata = {};
+              postdata['email'] = email;
+              jQuery.ajax({
                 url: php_vars.validateUrl,
                 type: "POST",
                 data: postdata,
-            }).done(function(output){
+              }).done(function(output){
                 if (output == '1') {
                     jQuery('#fld_5566226_1-wrap').addClass('has-error');
                     jQuery('#fld_5566226_1').addClass('parsley-error');
-                    jQuery('#fld_5566226_1').parent('div').append('<span class="help-block caldera_ajax_error_block filled" aria-live="polite"><span class="parsley-custom-error-message">A volunteer with this email already exists. Please use a different email.</span></span>');
+                    jQuery('#fld_5566226_1').parent('div').append('<span id="error-email" class="help-block caldera_ajax_error_block filled" aria-live="polite"><span class="parsley-custom-error-message">A volunteer with this email already exists. Please use a different email.</span></span>');
                     return false;
                 }
-		else {
-	            jQuery('#fld_5566226_1-wrap').removeClass('has-error');
-		    
-                    jQuery('#fld_5566226_1').removeClass('parsley-error');
-                    jQuery('#fld_5566226_1').parent('div').remove('span.help-block');
-		}
-            });
-	    }
+		        else {
+	                jQuery('#fld_5566226_1-wrap').removeClass('has-error');
+	                jQuery('#fld_5566226_1').removeClass('parsley-error');
+	                jQuery('#error-email').remove();
+		        }
+              });
+	        }
         });
     }
 });
