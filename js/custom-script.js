@@ -677,7 +677,7 @@ jQuery(document).ready(function($) {
     $('.jsgrid-clear-filter-button').attr('title', 'Clear filter 清除篩選條件');
     $('.jsgrid-edit-button').attr('title', 'Edit 編輯');
     $('.jsgrid-insert-button').attr('title', 'Insert 添加');
-    $('.jsgrid-search-mode-button').attr('Switch to searching 轉至搜索');
+    $('.jsgrid-search-mode-button').attr('title', 'Switch to searching 轉至搜索');
     $('.jsgrid-filter-button').attr('title', 'Filter 篩選條件');
 });
 
