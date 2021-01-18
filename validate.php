@@ -1,7 +1,7 @@
 <?php
 
 $options = [];
-$call = wpcmrf_api('Yhvsignup', 'validateemail', $_REQUEST, $options, CMRF_ID);
+$call = wpcmrf_api('Contact', 'validateemail', $_REQUEST, $options, CMRF_ID);
 $filterVals = $call->getReply();
 
 if (!empty($filterVals['values'])) {
