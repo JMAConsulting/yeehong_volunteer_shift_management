@@ -328,6 +328,11 @@ jQuery(document).ready(function($) {
                     // Retrieve the DOM element (select)
                     // Note: prototype.editTemplate
                     var $editControl = jsGrid.fields.select.prototype.editTemplate.call(this, value);
+		    
+	            if (this.readOnly) {
+                      this.items = divisions;
+		      return $editControl;
+		    }
 
                     // Attach onchange listener !
                     $editControl.change(function(){
@@ -374,6 +379,13 @@ jQuery(document).ready(function($) {
                 itemTemplate: function(prog) {
                     return prog;
                 },
+		editTemplate: function (value) {
+                    var $editControl = jsGrid.fields.select.prototype.editTemplate.call(this, value);
+	            if (this.readOnly) {
+			 this.items = programs;   
+		    }
+		    return $editControl;
+		}
             },
             { name: "Date", type: "date", css: "date-field", filtering: false,
                 headerTemplate: function() {
@@ -623,6 +635,7 @@ jQuery(document).ready(function($) {
         $('#btnBatchEdit1').hide();
         var rows = $grid.jsGrid("option", "data");
         $grid.jsGrid("editItems_forBatch", rows);
+	$('.jsgrid-pager-container').hide();
         $('#btnBatchSave1').show();
         $('#btnBatchCancel1').show();
         $('#statuscontrol i').show();
@@ -640,6 +653,7 @@ jQuery(document).ready(function($) {
             $('#btnBatchEdit1').show();
             $('#statuscontrol i').hide();
             $('.jsgrid-filter-row').show();
+            $('.jsgrid-pager-container').show();
         }
     });
     $("#batch-controls").on('click', '#btnBatchCancel1', function() {
@@ -653,6 +667,7 @@ jQuery(document).ready(function($) {
         $('#btnBatchCancel1').hide();
         $('#btnBatchEdit1').show();
         $('#statuscontrol i').hide();
+	$('.jsgrid-pager-container').show();
     });
 
     $(document).on('click', '#statuscontrol', function() {
