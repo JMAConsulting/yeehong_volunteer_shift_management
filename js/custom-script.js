@@ -500,14 +500,14 @@ jQuery(document).ready(function($) {
                 var editedItem ;
 
                 var item = this._getEditedItem_forBatch(currentEditingRowFields);
-		if (typeof item.ID != undefined && item.ID) {
-                editedItem = this._validateItem(item, currentEditingRow) ? item : null;
+		        if (typeof item.ID != undefined && item.ID) {
+                  editedItem = this._validateItem(item, currentEditingRow) ? item : null;
 
-                if (!editedItem)
+                  if (!editedItem)
                     return false;
-                editingRows.push(currentEditingRow);
-                editedItems.push(editedItem);
-		}
+                  editingRows.push(currentEditingRow);
+                  editedItems.push(editedItem);
+		        }
             }
             var batchData = {"batchupdate": editedItems, "cid": php_vars.cid};
             $.ajax({
@@ -576,12 +576,10 @@ jQuery(document).ready(function($) {
                         $(".jsgrid-load-shader, .jsgrid-load-panel").show();
                     },
                 }).done(function(output){
-			console.log(item);
-			console.log(output);
                     d.resolve(item);
                     $(".jsgrid-load-shader, .jsgrid-load-panel").hide();
                 });
-		$grid.jsGrid("fieldOption", 5, "items", programs);
+		        $grid.jsGrid("fieldOption", 5, "items", programs);
                 return d.promise();
             },
 
@@ -645,6 +643,7 @@ jQuery(document).ready(function($) {
         $('#btnBatchCancel1').show();
         $('#statuscontrol i').show();
         $('.jsgrid-filter-row').hide();
+        $('.jsgrid-insert-row').hide();
     });
 
     $("#batch-controls").on('click', '#btnBatchSave1', function() {
