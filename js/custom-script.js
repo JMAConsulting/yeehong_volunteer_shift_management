@@ -577,6 +577,7 @@ jQuery(document).ready(function($) {
                     d.resolve(item);
                     $(".jsgrid-load-shader, .jsgrid-load-panel").hide();
                 });
+		$grid.jsGrid("fieldOption", 5, "items", programs);
                 return d.promise();
             },
 
