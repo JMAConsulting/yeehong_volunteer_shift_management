@@ -701,39 +701,105 @@ jQuery(document).ready(function($) {
 });
 
 jQuery( document ).on( 'cf.form.init', function (event, data ) {
-    if ('CF5f63138ba9942' === data.formId) {
-      // disable NEXT button for validation check
+  if ('CF5f63138ba9942' === data.formId) {
+    // disable NEXT button for validation check
+    jQuery('#fld_1816828_1').attr("disabled", true);
+    // on filling email field disable NEXT button
+    jQuery('#fld_5566226_1').on('focus', function (e) {
       jQuery('#fld_1816828_1').attr("disabled", true);
-      // on filling email field disable NEXT button
-      jQuery('#fld_5566226_1').on('focus', function (e) {
-        jQuery('#fld_1816828_1').attr("disabled", true);
-      });
-      jQuery('#fld_5566226_1').on('blur', function (e) {
-          // REMOVE any earlier validation message on email
-          jQuery('#fld_5566226_1-wrap').removeClass('has-error');
-          jQuery('#fld_5566226_1').removeClass('parsley-error');
-          jQuery('#error-email').remove();
-            // Check email.
-            var email = jQuery('#fld_5566226_1').val();
-	        if (email) {
-              var postdata = {};
-              postdata['email'] = email;
-              jQuery.ajax({
-                url: php_vars.validateUrl,
-                type: "POST",
-                data: postdata,
-              }).done(function(output){
-                if (output == '1') {
-                    jQuery('#fld_5566226_1-wrap').addClass('has-error');
-                    jQuery('#fld_5566226_1').addClass('parsley-error');
-                    jQuery('#fld_5566226_1').parent('div').append('<span id="error-email" class="help-block caldera_ajax_error_block filled" aria-live="polite"><span class="parsley-custom-error-message">A volunteer with this email already exists. Please use a different email.</span></span>');
-                    return false;
-                }
-		            else {
-                  jQuery('#fld_1816828_1').removeAttr("disabled");
-		            }
-              });
-	        }
+    });
+    jQuery('#fld_5566226_1').on('blur', function (e) {
+      // REMOVE any earlier validation message on email
+      jQuery('#fld_5566226_1-wrap').removeClass('has-error');
+      jQuery('#fld_5566226_1').removeClass('parsley-error');
+      jQuery('#error-email').remove();
+      // Check email.
+      var email = jQuery('#fld_5566226_1').val();
+      if (email) {
+        var postdata = {};
+        postdata['email'] = email;
+        jQuery.ajax({
+          url: php_vars.validateUrl,
+          type: "POST",
+          data: postdata,
+        }).done(function(output){
+          if (output == '1') {
+            jQuery('#fld_5566226_1-wrap').addClass('has-error');
+            jQuery('#fld_5566226_1').addClass('parsley-error');
+            jQuery('#fld_5566226_1').parent('div').append('<span id="error-email" class="help-block caldera_ajax_error_block filled" aria-live="polite"><span class="parsley-custom-error-message">A volunteer with this email already exists. Please use a different email.</span></span>');
+            return false;
+          }
+          else {
+           jQuery('#fld_1816828_1').removeAttr("disabled");
+          }
         });
-    }
+      }
+    });
+
+    var fileTypes = ["jpg", "jpeg", "png", "pdf"];
+    var tbField = document.getElementById("fld_6875471_1");
+    tbField.addEventListener("change", function(event) {
+      jQuery('#fld_1366396_1').attr("disabled", true);
+      // When the control has changed, there are new files
+      var files = tbField.files;
+      for (var i = 0; i < files.length; i++) {
+        var fileNameDetails = files[i].name.split(".");
+        if (!fileTypes.includes(fileNameDetails[1])) {
+          jQuery('#fld_6875471_1-wrap').addClass('has-error');
+          jQuery('#fld_6875471_1').addClass('parsley-error');
+          jQuery('#fld_6875471_1').parent('div').append('<span id="error-tb-test-result"><span class="parsley-custom-error-message">The file selected does not match the acceptable file types of JPEG, JPEG, PNG, PDF</span></span>');
+          return false;
+        }
+        else {
+          jQuery('#fld_6875471_1-wrap').removeClass('has-error');
+          jQuery('#fld_6875471_1').removeClass('parsley-error');
+          jQuery('#error-tb-test-result').remove();
+          jQuery('#fld_1366396_1').removeAttr("disabled");
+        }
+      }
+    });
+    var vulerableSectorCheckField = document.getElementById("fld_1303524_1");
+    vulerableSectorCheckField.addEventListener("change", function(event) {
+      jQuery('#fld_1366396_1').attr("disabled", true);
+      // When the control has changed, there are new files
+      var files = vulerableSectorCheckField.files;
+      for (var i = 0; i < files.length; i++) {
+        var fileNameDetails = files[i].name.split(".");
+        if (!fileTypes.includes(fileNameDetails[1])) {
+          jQuery('#fld_1303524_1-wrap').addClass('has-error');
+          jQuery('#fld_1303524_1').addClass('parsley-error');
+          jQuery('#fld_1303524_1').parent('div').append('<span id="error-vulerable-sector-field"><span class="parsley-custom-error-message">The file selected does not match the acceptable file types of JPEG, JPEG, PNG, PDF</span></span>');
+          return false;
+        }
+        else {
+          jQuery('#fld_1303524_1-wrap').removeClass('has-error');
+          jQuery('#fld_1303524_1').removeClass('parsley-error');
+          jQuery('#error-vulerable-sector-field').remove();
+          jQuery('#fld_1366396_1').removeAttr("disabled");
+        }
+      }
+    });
+    var firstAidField = document.getElementById("fld_7859383_1");
+    firstAidField.addEventListener("change", function(event) {
+      jQuery('#fld_1366396_1').attr("disabled", true);
+      // When the control has changed, there are new files
+      var files = firstAidField.files;
+      for (var i = 0; i < files.length; i++) {
+        var fileNameDetails = files[i].name.split(".");
+        if (!fileTypes.includes(fileNameDetails[1])) {
+          jQuery('#fld_7859383_1-wrap').addClass('has-error');
+          jQuery('#fld_7859383_1').addClass('parsley-error');
+          jQuery('#fld_7859383_1').parent('div').append('<span id="error-first-aid"><span class="parsley-custom-error-message">The file selected does not match the acceptable file types of JPEG, JPEG, PNG, PDF</span></span>');
+          return false;
+        }
+        else {
+          jQuery('#fld_7859383_1-wrap').removeClass('has-error');
+          jQuery('#fld_7859383_1').removeClass('parsley-error');
+          jQuery('#error-first-aid').remove();
+          jQuery('#fld_1366396_1').removeAttr("disabled");
+        }
+      }
+    });
+  }
 });
+
