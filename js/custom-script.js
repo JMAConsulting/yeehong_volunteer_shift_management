@@ -702,7 +702,17 @@ jQuery(document).ready(function($) {
 
 jQuery( document ).on( 'cf.form.init', function (event, data ) {
     if ('CF5f63138ba9942' === data.formId) {
-        jQuery('.check-validation').click(function (e) {
+      // disable NEXT button for validation check
+      jQuery('#fld_1816828_1').attr("disabled", true);
+      // on filling email field disable NEXT button
+      jQuery('#fld_5566226_1').on('focus', function (e) {
+        jQuery('#fld_1816828_1').attr("disabled", true);
+      });
+      jQuery('#fld_5566226_1').on('blur', function (e) {
+          // REMOVE any earlier validation message on email
+          jQuery('#fld_5566226_1-wrap').removeClass('has-error');
+          jQuery('#fld_5566226_1').removeClass('parsley-error');
+          jQuery('#error-email').remove();
             // Check email.
             var email = jQuery('#fld_5566226_1').val();
 	        if (email) {
@@ -719,11 +729,9 @@ jQuery( document ).on( 'cf.form.init', function (event, data ) {
                     jQuery('#fld_5566226_1').parent('div').append('<span id="error-email" class="help-block caldera_ajax_error_block filled" aria-live="polite"><span class="parsley-custom-error-message">A volunteer with this email already exists. Please use a different email.</span></span>');
                     return false;
                 }
-		        else {
-	                jQuery('#fld_5566226_1-wrap').removeClass('has-error');
-	                jQuery('#fld_5566226_1').removeClass('parsley-error');
-	                jQuery('#error-email').remove();
-		        }
+		            else {
+                  jQuery('#fld_1816828_1').removeAttr("disabled");
+		            }
               });
 	        }
         });
