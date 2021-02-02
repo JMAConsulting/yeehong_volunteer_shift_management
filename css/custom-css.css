@@ -3,7 +3,7 @@
     background: #fdffe3;
 }
 
-input[readonly], input[readonly="readonly"] {
+input[readonly]:not(.jsgrid-button), input[readonly="readonly"]:not(.jsgrid-button) {
     background: #fdffe3;
 }
 

@@ -700,6 +700,49 @@ jQuery(document).ready(function($) {
     $('.jsgrid-filter-button').attr('title', 'Filter 篩選條件');
 });
 
+
+jQuery(document).ready(function($) {
+  $('#fld_5566226_1').attr('data-parsley-trigger', 'blur');
+  Parsley.addValidator('stateAndZip', {
+    validateString: function(_ignoreValue, country, instance) {
+      var state = instance.$element.find('[name="fld_5566226"]').val();
+      console.log(state);
+      var zip = instance.$element.find('[name="zip"]').val();
+      var xhr = $.ajax('//www.zippopotam.us/' + country + '/' + zip)
+      // When Zippopotam.us returns the info of the given zip, check it:
+      return xhr.then(function(json) {
+        var actualState = json.places[0]['state abbreviation'];
+        if (actualState !== state) {
+          // We could return `false`, but for an even better result
+          // we can fail the promise with a custom error message:
+          return $.Deferred().reject("The zip code " + zip + " is in " + actualState + ", not in " + state);
+          // Note: in jQuery 3.0+, you can `throw('my custom error')` for the same result
+        }
+      })
+    },
+    // The following error message will still show if the xhr itself fails
+    // (404 because zip does not exist, network error, etc.)
+    messages: {en: 'There is no such zip for the country "%s"'}
+  });
+
+  $( document ).on(  'cf.validate.fieldSuccess', function( event, obj ){
+      console.log(obj.inst);
+    if ('fld_5566226' === obj.el.data('field')) {
+      ///make invalid
+//      obj.inst.validationResult = false;
+      console.log(obj.inst);
+    }
+  });
+
+  $( document ).on(  'cf.validate.fieldError', function( event, obj ){
+    console.log(obj.inst);
+  });
+
+  $( document ).on(  'cf.validate.FormError', function( event, obj ){
+    console.log(obj.inst);
+  });
+});
+
 jQuery( document ).on( 'cf.form.init', function (event, data ) {
   if ('CF5f63138ba9942' === data.formId) {
     // disable NEXT button for validation check
