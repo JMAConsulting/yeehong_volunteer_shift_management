@@ -701,7 +701,8 @@ jQuery(document).ready(function($) {
 });
 
 jQuery( document ).on( 'cf.form.init', function (event, data ) {
-  if ('CF5f63138ba9942' === data.formId) {
+  if ('CF5f63138ba9942' === data.formId || 'CF5fb2116cbed8e' === data.formId) {
+    // Volunteer Appplication
     // disable NEXT button for validation check
     jQuery('#fld_1816828_1').attr("disabled", true);
     // on filling email field disable NEXT button
@@ -718,8 +719,15 @@ jQuery( document ).on( 'cf.form.init', function (event, data ) {
       if (email) {
         var postdata = {};
         postdata['email'] = email;
+        if ('CF5f63138ba9942' === data.formId) {
+            var dataUrl = php_vars.validateUrl;
+        }
+        else {
+            var dataUrl = php_vars.validatevolUrl;
+            postdata['cid'] = Cookies.get("volunteer_cid");
+        }
         jQuery.ajax({
-          url: php_vars.validateUrl,
+          url: dataUrl,
           type: "POST",
           data: postdata,
         }).done(function(output){
