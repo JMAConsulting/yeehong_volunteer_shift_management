@@ -700,8 +700,6 @@ jQuery(document).ready(function($) {
     $('.jsgrid-filter-button').attr('title', 'Filter 篩選條件');
 });
 
-<<<<<<< HEAD
-
 jQuery(document).ready(function($) {
   $('#fld_5566226_1').attr('data-parsley-trigger', 'blur');
   Parsley.addValidator('stateAndZip', {
