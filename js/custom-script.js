@@ -700,6 +700,7 @@ jQuery(document).ready(function($) {
     $('.jsgrid-filter-button').attr('title', 'Filter 篩選條件');
 });
 
+<<<<<<< HEAD
 
 jQuery(document).ready(function($) {
   $('#fld_5566226_1').attr('data-parsley-trigger', 'blur');
@@ -743,6 +744,22 @@ jQuery(document).ready(function($) {
   });
 });
 
+function getCookie(cname) {
+    var name = cname + "=";
+    var decodedCookie = decodeURIComponent(document.cookie);
+    var ca = decodedCookie.split(';');
+    for(var i = 0; i <ca.length; i++) {
+        var c = ca[i];
+        while (c.charAt(0) == ' ') {
+            c = c.substring(1);
+        }
+        if (c.indexOf(name) == 0) {
+            return c.substring(name.length, c.length);
+        }
+    }
+    return "";
+}
+
 jQuery( document ).on( 'cf.form.init', function (event, data ) {
   if ('CF5f63138ba9942' === data.formId || 'CF5fb2116cbed8e' === data.formId) {
     // Volunteer Appplication
@@ -767,7 +784,7 @@ jQuery( document ).on( 'cf.form.init', function (event, data ) {
         }
         else {
             var dataUrl = php_vars.validatevolUrl;
-            postdata['cid'] = Cookies.get("volunteer_cid");
+            postdata['cid'] = getCookie("volunteer_cid");
         }
         jQuery.ajax({
           url: dataUrl,
