@@ -760,9 +760,11 @@ function getCookie(cname) {
 
 jQuery( document ).on( 'cf.form.init', function (event, data ) {
   if ('CF5f63138ba9942' === data.formId || 'CF5fb2116cbed8e' === data.formId) {
-    // Volunteer Appplication
+    // Volunteer Application
     // disable NEXT button for validation check
-    jQuery('#fld_1816828_1').attr("disabled", true);
+    if ('CF5f63138ba9942' === data.formId) {
+      jQuery('#fld_1816828_1').attr("disabled", true);
+    }
     // on filling email field disable NEXT button
     jQuery('#fld_5566226_1').on('focus', function (e) {
       jQuery('#fld_1816828_1').attr("disabled", true);
