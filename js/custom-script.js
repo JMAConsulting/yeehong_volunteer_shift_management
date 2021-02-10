@@ -773,6 +773,7 @@ jQuery( document ).on( 'cf.form.init', function (event, data ) {
       // REMOVE any earlier validation message on email
       jQuery('#fld_5566226_1-wrap').removeClass('has-error');
       jQuery('#fld_5566226_1').removeClass('parsley-error');
+      jQuery('#fld_1816828_1').val('Validating...');
       jQuery('#error-email').remove();
       // Check email.
       var email = jQuery('#fld_5566226_1').val();
@@ -791,6 +792,7 @@ jQuery( document ).on( 'cf.form.init', function (event, data ) {
           type: "POST",
           data: postdata,
         }).done(function(output){
+          jQuery('#fld_1816828_1').val('Next 下一頁 >');
           if (output == '1') {
             jQuery('#fld_5566226_1-wrap').addClass('has-error');
             jQuery('#fld_5566226_1').addClass('parsley-error');
