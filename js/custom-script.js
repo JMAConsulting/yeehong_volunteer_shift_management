@@ -731,7 +731,7 @@ jQuery( document ).on( 'cf.form.init', function (event, data ) {
       // REMOVE any earlier validation message on email
       jQuery('#fld_5566226_1-wrap').removeClass('has-error');
       jQuery('#fld_5566226_1').removeClass('parsley-error');
-      jQuery('#fld_1816828_1').val('Validating...');
+      jQuery('#fld_1816828_1').val('Validating email, Please wait.. 正在驗證電郵地址，請稍候…');
       jQuery('#error-email').remove();
       // Check email.
       var email = jQuery('#fld_5566226_1').val();
@@ -754,7 +754,7 @@ jQuery( document ).on( 'cf.form.init', function (event, data ) {
           if (output == '1') {
             jQuery('#fld_5566226_1-wrap').addClass('has-error');
             jQuery('#fld_5566226_1').addClass('parsley-error');
-            jQuery('#fld_5566226_1').parent('div').append('<span id="error-email" class="help-block caldera_ajax_error_block filled" aria-live="polite"><span class="parsley-custom-error-message">A volunteer with this email already exists. Please use a different email.</span></span>');
+            jQuery('#fld_5566226_1').parent('div').append('<span id="error-email" class="help-block caldera_ajax_error_block filled" aria-live="polite"><span class="parsley-custom-error-message">A volunteer with this email already exists. Please use a different email. 此電郵地址已有義工使用，請使用其他電郵地址。</span></span>');
             return false;
           }
           else {
@@ -776,7 +776,7 @@ jQuery( document ).on( 'cf.form.init', function (event, data ) {
                 if (!fileTypes.includes(fileNameDetails[1])) {
                     jQuery('#fld_6875471_1-wrap').addClass('has-error');
                     jQuery('#fld_6875471_1').addClass('parsley-error');
-                    jQuery('#fld_6875471_1').parent('div').append('<span id="error-tb-test-result"><span class="parsley-custom-error-message">The file selected does not match the acceptable file types of JPEG, JPEG, PNG, PDF</span></span>');
+                    jQuery('#fld_6875471_1').parent('div').append('<span id="error-tb-test-result"><span class="parsley-custom-error-message">This file type is not allowed. Allowed file types: JPG, JPEG, PNG, PDF. 此文件不屬於允許的類型文件。允許的文件類型為JPG、JPEG、PNG 及 PDF。</span></span>');
                     return false;
                 } else {
                     jQuery('#fld_6875471_1-wrap').removeClass('has-error');
@@ -796,7 +796,7 @@ jQuery( document ).on( 'cf.form.init', function (event, data ) {
                 if (!fileTypes.includes(fileNameDetails[1])) {
                     jQuery('#fld_1303524_1-wrap').addClass('has-error');
                     jQuery('#fld_1303524_1').addClass('parsley-error');
-                    jQuery('#fld_1303524_1').parent('div').append('<span id="error-vulerable-sector-field"><span class="parsley-custom-error-message">The file selected does not match the acceptable file types of JPEG, JPEG, PNG, PDF</span></span>');
+                    jQuery('#fld_1303524_1').parent('div').append('<span id="error-vulnerable-sector-field"><span class="parsley-custom-error-message">This file type is not allowed. Allowed file types: JPG, JPEG, PNG, PDF. 此文件不屬於允許的類型文件。允許的文件類型為JPG、JPEG、PNG 及 PDF。</span></span>');
                     return false;
                 } else {
                     jQuery('#fld_1303524_1-wrap').removeClass('has-error');
@@ -816,7 +816,7 @@ jQuery( document ).on( 'cf.form.init', function (event, data ) {
                 if (!fileTypes.includes(fileNameDetails[1])) {
                     jQuery('#fld_7859383_1-wrap').addClass('has-error');
                     jQuery('#fld_7859383_1').addClass('parsley-error');
-                    jQuery('#fld_7859383_1').parent('div').append('<span id="error-first-aid"><span class="parsley-custom-error-message">The file selected does not match the acceptable file types of JPEG, JPEG, PNG, PDF</span></span>');
+                    jQuery('#fld_7859383_1').parent('div').append('<span id="error-first-aid"><span class="parsley-custom-error-message">This file type is not allowed. Allowed file types: JPG, JPEG, PNG, PDF. 此文件不屬於允許的類型文件。允許的文件類型為JPG、JPEG、PNG 及 PDF。</span></span>');
                     return false;
                 } else {
                     jQuery('#fld_7859383_1-wrap').removeClass('has-error');
