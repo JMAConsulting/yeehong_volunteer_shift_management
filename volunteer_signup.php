@@ -91,7 +91,7 @@ function add_jsgrid_template( $page_template ) {
     $page_template = __DIR__.'/validate.php';
   }
   if (is_page('volunteer-profile-email')) {
-    $page_template = __DIR__.'/validate.php';
+    $page_template = __DIR__.'/validatevolemail.php';
   }
   return $page_template;
 }
